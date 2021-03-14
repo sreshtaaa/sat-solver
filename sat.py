@@ -1,40 +1,7 @@
 import sys
 from copy import copy, deepcopy
 import random
-
-# Feel free to change the provided types and parsing code to match
-# your preferred representation of formulas, clauses, and literals.
-
-class Literal:
-    def __init__(self, name, sign):
-        self.name = name  # integer
-        self.sign = sign  # boolean
-
-    def __repr__(self):
-        return ("-" if not self.sign else "") + self.name
-
-    def __eq__(self, other):
-        if type(other) != Literal:
-            return False
-        return self.name == other.name and self.sign == other.sign
-
-    def __hash__(self):
-      return hash((self.name, self.sign))
-
-
-class Clause:
-    def __init__(self, id, literalSet):
-        self.id = id
-        self.literalSet = literalSet
-
-    def __repr__(self):
-        return f"{self.id}: {str(self.literalSet)}"
-
-    def __eq__(self, other):
-        if type(other) != Clause:
-            return False
-        return self.id == other.id
-
+from classes import Clause, Literal
 
 def unit_clause_elimination(set_clauses : Set[Clause], assigned_vars : Set[Literal], unassigned_vars : Set[Literal]):
     unit_set = find_all_units(set_clauses, assigned_vars, unassigned_vars)
