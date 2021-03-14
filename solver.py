@@ -24,12 +24,12 @@ class Literal:
 
 
 class Clause:
-    def __init__(self, id, literalSet):
+    def __init__(self, id, literal_set):
         self.id = id
-        self.literalSet = literalSet
+        self.literal_set = literal_set
 
     def __repr__(self):
-        return f"{self.id}: {str(self.literalSet)}"
+        return f"{self.id}: {str(self.literal_set)}"
 
     def __eq__(self, other):
         if type(other) != Clause:
@@ -39,26 +39,27 @@ class Clause:
 
 # Read and parse a cnf file, returning the variable set and clause set
 def readInput(cnfFile):
-    variableSet = []
-    clauseSet = []
-    nextCID = 0
+    unassigned_set = {}
+    assigned_set = {}
+    clause_set = {}
+    next_CID = 0
     with open(cnfFile, "r") as f:
         for line in f.readlines():
             tokens = line.strip().split()
             if tokens and tokens[0] != "p" and tokens[0] != "c":
-                literalSet = []
+                literal_set = {}
                 for lit in tokens[:-1]:
                     sign = lit[0] != "-"
                     variable = lit.strip("-")
+                    constructed_lit = Literal(variable, sign)
 
-                    literalSet.append(Literal(variable, sign))
-                    if variable not in variableSet:
-                        variableSet.append(variable)
+                    literal_set.add(constructed_lit)
+                    unassigned_set.append(constructed_lit)
 
-                clauseSet.append(Clause(nextCID, literalSet))
-                nextCID += 1
+                clause_set.add(Clause(next_CID, literal_set))
+                next_CID += 1
     
-    return variableSet, clauseSet
+    return assigned_set, unassigned_set, clause_set
 
 
 # Print the result in DIMACS format
@@ -73,10 +74,9 @@ def printOutput(assignment):
     if isSat:
         print(f"v{result} 0")
 
-
 if __name__ == "__main__":
     inputFile = sys.argv[1]
-    varbset, clauseSet = readInput(inputFile)
+    assigned, unassigned, clause_set = readInput(inputFile)
 
     # TODO: find a satisfying instance (or return unsat) and print it out
     printOutput({})
