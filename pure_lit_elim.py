@@ -1,6 +1,6 @@
-from typing import Callable, List, Set, Tuple
 from classes import Literal, Clause
-from general_functions import update_assignments, remove_clauses_with_literal, negate_literal
+from general import update_assignments, remove_clauses_with_literal, negate_literal
+from typing import Callable, List, Set, Tuple
 
 def find_pure(inst : Set[Clause], lits : Set[Literal]):
     for l in lits:

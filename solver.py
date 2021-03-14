@@ -4,12 +4,42 @@ from copy import copy, deepcopy
 import random
 from typing import Callable, List, Set, Tuple
 from classes import Literal, Clause
-import unit_elim
-import general_functions
-# import pure_lit_elim
+from unit_elim import unit_clause_elimination, eliminate_single_unit
+from general_functions import update_assignments, negate_literal, remove_clauses_with_literal
+from pure_lit_elim import pure_literal_elim
 
-# Feel free to change the provided types and parsing code to match
-# your preferred representation of formulas, clauses, and literals.
+
+def solve(assigned_lits : Set[Literal], unassigned_lits : Set[Literal], set_clauses : Set[Clause]):
+    eliminated_unit_clauses = unit_clause_elimination(assigned_lits, unassigned_lits, set_clauses)
+    cleaned_clauses = pure_literal_elim(eliminated_unit_clauses, assigned_lits, unassigned_lits)
+
+    if cleaned_clauses == set():
+        return assigned_lits
+    elif set() in cleaned_clauses: 
+        return # return None for print output
+    else: 
+        modified_assigned = assigned_lits.copy()
+        modified_unassigned = unassigned_lits.copy()
+
+        random_lit = modified_unassigned.pop()
+        modified_unassigned.add(random_lit)
+
+        update_assignments(modified_assigned, modified_unassigned, random_lit)
+        modified_clauses = eliminate_single_unit(set_clauses.copy(), random_lit)
+
+        result = solve(modified_assigned, modified_unassigned, modified_clauses)
+        if result == None: 
+            neg_modified_assigned = assigned_lits.copy()
+            neg_modified_unassigned = unassigned_lits.copy()
+
+            update_assignments(neg_modified_assigned, neg_modified_unassigned, negate_literal(random_lit))
+            neg_modified_clauses = eliminate_single_unit(set_clauses.copy(), negate_literal(random_lit))
+
+            neg_result = solve(modified_assigned, modified_unassigned, modified_clauses)
+            
+            return neg_result
+        else: 
+            return result
 
 # Read and parse a cnf file, returning the variable set and clause set
 def readInput(cnfFile):
