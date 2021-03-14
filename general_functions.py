@@ -5,7 +5,7 @@ from classes import Literal, Clause
 def remove_clauses_with_literal(set_clauses : Set[Clause], l : Literal): 
     clauses_without_literal = set()
     for clause in set_clauses: 
-        if l in clause: 
+        if l in clause.literal_set: 
             continue
         else: 
             clauses_without_literal.add(clause)
@@ -25,7 +25,7 @@ def update_assignments(assigned_lits : Set[Literal], unassigned_lits : Set[Liter
 def remove_negated_unit(set_clauses : Set[Clause], unit : Literal):
     negated_literal = negate_literal(unit)
     for clause in set_clauses: 
-        clause.discard(negated_literal)
+        clause.literal_set.discard(negated_literal)
     
     return set_clauses
 
