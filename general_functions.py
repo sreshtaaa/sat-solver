@@ -1,3 +1,4 @@
+from typing import Callable, List, Set, Tuple
 from classes import Literal, Clause
 
 # Consumes a set of clauses and returns only the clauses without the literal l 
