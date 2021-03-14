@@ -4,7 +4,7 @@ class Literal:
         self.sign = sign  # boolean
 
     def __repr__(self):
-        return ("-" if not self.sign else "") + self.name
+        return ("-" if not self.sign else "") + str(self.name)
 
     def __eq__(self, other):
         if type(other) != Literal:
