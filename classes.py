@@ -1,7 +1,3 @@
-import sys
-from copy import copy, deepcopy
-import random
-
 class Literal:
     def __init__(self, name, sign):
         self.name = name  # integer

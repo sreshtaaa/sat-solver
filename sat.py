@@ -1,6 +1,7 @@
 import sys
 from copy import copy, deepcopy
 import random
+from typing import Callable, List, Set, Tuple
 from classes import Clause, Literal
 
 def unit_clause_elimination(set_clauses : Set[Clause], assigned_vars : Set[Literal], unassigned_vars : Set[Literal]):

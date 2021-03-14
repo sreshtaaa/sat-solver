@@ -1,6 +1,4 @@
-import sys
-from copy import copy, deepcopy
-import random
+from typing import Callable, List, Set, Tuple
 from general_functions import remove_clauses_with_literal, update_assignments, remove_negated_unit, negate_literal
 from classes import Literal, Clause
 
@@ -10,7 +8,7 @@ def unit_clause_elimination(set_clauses : Set[Clause], assigned_vars : Set[Liter
     for unit in unit_set: 
         removed_clauses = eliminate_single_unit(removed_clauses, unit)
     
-    return set_clauses
+    return removed_clauses
 
 # Consumes a set of clauses and returns a set of unit literals
 def find_all_units(set_clauses : Set[Clause], assigned_vars : Set[Literal], unassigned_vars : Set[Literal]):

@@ -2,6 +2,7 @@
 import sys
 from copy import copy, deepcopy
 import random
+from typing import Callable, List, Set, Tuple
 from classes import Literal, Clause
 import unit_elim
 import general_functions
