@@ -36,12 +36,13 @@ class Clause:
             return False
         return self.id == other.id
 
+# CAN YOU SEE THIS
 
 # Read and parse a cnf file, returning the variable set and clause set
 def readInput(cnfFile):
-    unassigned_set = {}
-    assigned_set = {}
-    clause_set = {}
+    unassigned_set = set()
+    assigned_set = set()
+    clause_set = set()
     next_CID = 0
     with open(cnfFile, "r") as f:
         for line in f.readlines():
@@ -54,7 +55,7 @@ def readInput(cnfFile):
                     constructed_lit = Literal(variable, sign)
 
                     literal_set.add(constructed_lit)
-                    unassigned_set.append(constructed_lit)
+                    unassigned_set.add(constructed_lit)
 
                 clause_set.add(Clause(next_CID, literal_set))
                 next_CID += 1
