@@ -5,7 +5,6 @@ class Literal:
 
     def __repr__(self):
         return ("-" if not self.sign else "") + str(self.name)
-        
     def __eq__(self, other):
         if type(other) != Literal:
             return False
