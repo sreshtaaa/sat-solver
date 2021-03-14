@@ -36,7 +36,44 @@ class Clause:
         return self.id == other.id
 
 
+def unit_clause_elimination(set_clauses : Set[Clause], assigned_vars : Set[Literal], unassigned_vars : Set[Literal]):
 
+    return
+
+# Consumes a set of clauses and returns a set of unit literals
+def find_all_units(set_clauses : Set[Clause], assigned_vars : Set[Literal], unassigned_vars : Set[Literal]):
+    set_of_units = set()
+    for clause in set_clauses:
+        if is_unit(clause):
+            val = unit_value(clause)
+            set_of_units.add(val)
+            update_assignments(assigned_vars, unassigned_vars, val)
+ 
+    return set_of_units
+
+# Adds literal to assigned variable set and removes literal from unassigned variable set
+def update_assignments(assigned_var_set : Set[Literal], unassigned_var_set : Set[Literal], l : Literal): 
+    if l in unassigned_var_set:
+        unassigned_var_set.remove(l)
+        assigned_var_set.add(l)
+    
+    return
+
+# Consumes a set of clauses, elimintes all clauses with the unit, and removes unit's negation from remaining clauses
+def eliminate_single_unit(set_clauses : Set[Clause], unit : Literal): 
+    removed_clauses = remove_clauses_with_literal(set_clauses)
+    return remove_negated_unit(removed_clauses, unit)
+
+# Consumes a set of clauses and returns only the clauses without the literal l 
+def remove_clauses_with_literal(set_clauses : Set[Clause], l : Literal): 
+    clauses_without_literal = set()
+    for clause in set_clauses: 
+        if l in clause: 
+            continue
+        else: 
+            clauses_without_literal.add(clause)
+    
+    return clauses_without_literal
 
 # Consumes a set of clauses not containing a literal and a literal, and removes the negated 
 # literal from each clause in the set
@@ -46,15 +83,6 @@ def remove_negated_unit(set_clauses : Set[Clause], unit : Literal):
         clause.discard(negate_literal)
     
     return set_clauses
-
-# Consumes a set of clauses and returns a set of unit literals
-def find_all_units(set_clauses : Set[Clause]):
-    set_of_units = set()
-    for clause in set_clauses:
-        if is_unit(clause):
-            set_of_units.add(unit_value(clause))
-    
-    return set_of_units
 
 # Returns the literal contained in a unit clause 
 def unit_value(c : Clause): 
