@@ -24,7 +24,7 @@ def update_assignments(assigned_lits : Set[Literal], unassigned_lits : Set[Liter
 def remove_negated_unit(set_clauses : Set[Clause], unit : Literal):
     negated_literal = negate_literal(unit)
     for clause in set_clauses: 
-        clause.discard(negate_literal)
+        clause.discard(negated_literal)
     
     return set_clauses
 
