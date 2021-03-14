@@ -70,16 +70,21 @@ def printOutput(assignment):
     result = ""
     isSat = (assignment is not None)
     if isSat:
-        for var in assignment:
-            result += " " + ("" if assignment[var] else "-") + str(var)
+        for lit in assignment:
+            result += " " + repr(lit)
+            # result += " " + ("" if assignment[var] else "-") + str(var)
 
     print(f"s {'SATISFIABLE' if isSat else 'UNSATISFIABLE'}")
     if isSat:
         print(f"v{result} 0")
 
-if __name__ == "__main__":
+def main(): 
     inputFile = sys.argv[1]
     assigned, unassigned, clause_set = readInput(inputFile)
-
+    assignment = solve(assigned, unassigned, clause_set)
     # TODO: find a satisfying instance (or return unsat) and print it out
-    printOutput({})
+    printOutput(assignment)
+    return 
+
+if __name__ == "__main__":
+    main()

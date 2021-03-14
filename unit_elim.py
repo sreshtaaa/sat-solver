@@ -25,15 +25,15 @@ def find_all_units(set_clauses : Set[Clause], assigned : Set[Literal], unassigne
 # Consumes a set of clauses, elimintes all clauses with the unit, and 
 # removes unit's negation from remaining clauses
 def eliminate_single_unit(set_clauses : Set[Clause], unit : Literal): 
-    removed_clauses = remove_clauses_with_literal(set_clauses)
+    removed_clauses = remove_clauses_with_literal(set_clauses, unit)
     return remove_negated_unit(removed_clauses, unit)
 
 # Returns the literal contained in a unit clause 
 def unit_value(c : Clause): 
-    clause_literal = c.literalSet.pop()
-    c.literalSet.add(clause_literal)
+    clause_literal = c.literal_set.pop()
+    c.literal_set.add(clause_literal)
     return clause_literal
 
 # If the clause only contains 1 literal, then it is a unit
 def is_unit(c : Clause): 
-    return len(c.literalSet) == 1
+    return len(c.literal_set) == 1
