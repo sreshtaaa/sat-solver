@@ -50,7 +50,7 @@ def readInput(cnfFile):
         for line in f.readlines():
             tokens = line.strip().split()
             if tokens and tokens[0] != "p" and tokens[0] != "c":
-                literal_set = {}
+                literal_set = set()
                 for lit in tokens[:-1]:
                     sign = lit[0] != "-"
                     variable = lit.strip("-")

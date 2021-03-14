@@ -1,5 +1,5 @@
 from typing import Callable, List, Set, Tuple
-from general_functions import remove_clauses_with_literal, update_assignments \
+from general_functions import remove_clauses_with_literal, update_assignments, \
     remove_negated_unit, negate_literal
 from classes import Literal, Clause
 
