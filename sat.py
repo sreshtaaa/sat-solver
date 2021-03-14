@@ -37,8 +37,12 @@ class Clause:
 
 
 def unit_clause_elimination(set_clauses : Set[Clause], assigned_vars : Set[Literal], unassigned_vars : Set[Literal]):
-
-    return
+    unit_set = find_all_units(set_clauses, assigned_vars, unassigned_vars)
+    removed_clauses = set_clauses
+    for unit in unit_set: 
+        removed_clauses = eliminate_single_unit(removed_clauses, unit)
+    
+    return set_clauses
 
 # Consumes a set of clauses and returns a set of unit literals
 def find_all_units(set_clauses : Set[Clause], assigned_vars : Set[Literal], unassigned_vars : Set[Literal]):
