@@ -26,3 +26,6 @@ class Clause:
         if type(other) != Clause:
             return False
         return self.cid == other.cid
+    
+    def __hash__(self): 
+        return hash((self.cid))
