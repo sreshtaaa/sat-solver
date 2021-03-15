@@ -1,6 +1,7 @@
 from classes import Literal, Clause
 import general_functions
 import unit_elim
+import solver
 
 l1 = Literal(1, True)
 l1b = Literal(1, False)
