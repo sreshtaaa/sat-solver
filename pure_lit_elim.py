@@ -10,7 +10,7 @@ def find_pure(inst : Set[Clause], lits : Set[Literal]):
         if not pure:
             continue
         else:
-           return l
+            return l
             break
 
 def pure_literal_elim(inst : Set[Clause], assigned : Set[Literal], unassigned : Set[Literal]):
