@@ -30,6 +30,6 @@ assigned = set()
 
 print(solver.solve(assigned, unassigned, inst))
 
-left = unit_elim.unit_clause_elim(inst, assigned, unassigned)
-print(left, assigned)
-print(pure_lit_elim.pure_literal_elim(left, assigned, unassigned), assigned)
+#left = unit_elim.unit_clause_elim(inst, assigned, unassigned)
+#print(left, assigned)
+#print(pure_lit_elim.pure_literal_elim(left, assigned, unassigned), assigned)
