@@ -9,7 +9,7 @@ from general_functions import update_assignments, negate_literal, remove_clauses
 from pure_lit_elim import pure_literal_elim
 
 def solve(assigned_lits : Set[Literal], unassigned_lits : Set[Literal], set_clauses : Set[Clause]):
-    eliminated_unit_clauses = unit_clause_elim(assigned_lits, unassigned_lits, set_clauses)
+    eliminated_unit_clauses = unit_clause_elim(set_clauses, assigned_lits, unassigned_lits)
     cleaned_clauses = pure_literal_elim(eliminated_unit_clauses, assigned_lits, unassigned_lits)
 
     if cleaned_clauses == set():
