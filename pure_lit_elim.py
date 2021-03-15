@@ -3,15 +3,25 @@ from general_functions import update_assignments, remove_clauses_with_literal, n
 from typing import Callable, List, Set, Tuple
 
 def find_pure(inst : Set[Clause], lits : Set[Literal]):
+    remove = set()
     for l in lits:
-        pure = True
+        exists = False
         for c in inst:
-            pure = (negate_literal(l) not in c.literal_set) and pure
-        if not pure:
+            exists = exists or l in c.literal_set
+        if not exists:
+            remove.add(l)
             continue
         else:
-            return l
-            break
+            pure = True
+            for c in inst:
+                # DO: must check there is atleast one 
+                pure = (negate_literal(l) not in c.literal_set) and pure
+            if not pure:
+                continue
+            else:
+                return l
+                break
+    lits.difference_update(remove)
 
 def pure_literal_elim(inst : Set[Clause], assigned : Set[Literal], unassigned : Set[Literal]):
     elim = find_pure(inst, unassigned)

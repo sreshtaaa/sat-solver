@@ -1,6 +1,8 @@
 from classes import Literal, Clause
 import general_functions
 import unit_elim
+import pure_lit_elim
+import solver
 
 l1 = Literal(1, True)
 l1b = Literal(1, False)
@@ -26,5 +28,8 @@ inst = {c1, c2, c3}
 unassigned = {l1, l1b, l2, l3, l3b}
 assigned = set()
 
+print(solver.solve(assigned, unassigned, inst))
+
 left = unit_elim.unit_clause_elim(inst, assigned, unassigned)
-print(left)
+print(left, assigned)
+print(pure_lit_elim.pure_literal_elim(left, assigned, unassigned), assigned)
