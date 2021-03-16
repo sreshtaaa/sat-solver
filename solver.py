@@ -3,6 +3,8 @@ import sys
 from copy import copy, deepcopy
 import random
 from typing import Callable, List, Set, Tuple
+
+# Imports from our scripts
 from classes import Literal, Clause
 from unit_elim import unit_clause_elim, eliminate_single_unit
 from general_functions import update_assignments, negate_literal, remove_clauses_with_literal
@@ -82,7 +84,7 @@ def main():
     inputFile = sys.argv[1]
     assigned, unassigned, clause_set = readInput(inputFile)
     assignment = solve(assigned, unassigned, clause_set)
-    # TODO: find a satisfying instance (or return unsat) and print it out
+    # find a satisfying instance (or return unsat) and print it out
     printOutput(assignment)
     return 
 

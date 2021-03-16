@@ -9,7 +9,11 @@ def unit_clause_elim(set_clauses : Set[Clause], assigned : Set[Literal], unassig
     for unit in unit_set: 
         removed_clauses = eliminate_single_unit(removed_clauses, unit)
     
-    return removed_clauses
+    all_units = find_all_units(removed_clauses, assigned, unassigned)
+    if all_units == set(): 
+        return removed_clauses
+    else: 
+        return unit_clause_elim(removed_clauses, assigned, unassigned)
 
 # Consumes a set of clauses and returns a set of unit literals
 def find_all_units(set_clauses : Set[Clause], assigned : Set[Literal], unassigned : Set[Literal]):

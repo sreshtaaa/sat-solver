@@ -1,10 +1,10 @@
+from typing import Callable, List, Set, Tuple
+
+# Imports from our scripts
 from classes import Literal, Clause
 import general_functions
 import unit_elim
-<<<<<<< HEAD
-=======
 import pure_lit_elim
->>>>>>> 90fd7d86929e8be361d124c6ac5f9fc157846944
 import solver
 
 l1 = Literal(1, True)
