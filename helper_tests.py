@@ -8,7 +8,7 @@ from unit_elim import unit_clause_elim, eliminate_single_unit
 from general_functions import negate_literal
 from solver import solve
 
-# TESTERS
+############### TESTING VARIABLES ################
 
 l1 = Literal(1, True)
 l1b = Literal(1, False)
@@ -32,6 +32,13 @@ def unit_not_in_clauses(unit : Literal, clauses : Set[Clause]):
             return False
 
     return True
+
+def contains_empty_clause(clauses : Set[Clause]): 
+    for clause in clauses: 
+        if clause.literal_set == set(): 
+            return True
+    
+    return False
 
 class UnitElimTests(unittest.TestCase):
     def test_basic(self):
@@ -57,7 +64,8 @@ class UnitElimTests(unittest.TestCase):
         inst = {c1, c2, c3}
         elim_clauses = unit_clause_elim(inst, assigned.copy(), unassigned.copy())
 
-        self.assertTrue(unit_not_in_clauses(l1b, elim_clauses) and unit_not_in_clauses(l1, elim_clauses))
+        self.assertTrue(unit_not_in_clauses(l1b, elim_clauses) and unit_not_in_clauses(l1, elim_clauses) \
+            and contains_empty_clause(elim_clauses))
 
     def test_no_units(self): 
         c1 = Clause(1, {l1, l1b}) # x -x
@@ -70,15 +78,51 @@ class UnitElimTests(unittest.TestCase):
         self.assertTrue(unit_clause_elim(inst, assigned.copy(), unassigned.copy()) == inst)
     
     def test_unit_cascade(self): 
-        c1 = Clause(1, {l3}) # x -x
-        c2 = Clause(2, {l3b, l4}) # y w
-        c3 = Clause(3, {l1, l2, l3b, l4}) # x y z w
-        c4 = Clause(4, {l3b, l2}) # -z w
+        c1 = Clause(1, {l3}) # z
+        c2 = Clause(2, {l3b, l4}) # -z w
+        c3 = Clause(3, {l1, l2, l3b, l4}) # x y -z w
+        c4 = Clause(4, {l3b, l2}) # -z y
 
         inst = {c1, c2, c3, c4}
         elim_clauses = unit_clause_elim(inst, assigned.copy(), unassigned.copy())
 
         self.assertTrue(elim_clauses == set())
+
+    def test_remove_negation(self): 
+        c1 = Clause(1, {l3}) # x -x
+        c2 = Clause(2, {l3b, l4, l2b}) # -z w -y
+        c3 = Clause(3, {l1, l2, l3b, l4}) # x y -z w
+
+        inst = {c1, c2, c3}
+        elim_clauses = unit_clause_elim(inst, assigned.copy(), unassigned.copy())
+
+        self.assertTrue(unit_not_in_clauses(l3, elim_clauses) and unit_not_in_clauses(l3b, elim_clauses))  
+
+    def test_all_different_units(self): 
+        c1 = Clause(1, {l1}) # x
+        c2 = Clause(2, {l2}) # y
+        c3 = Clause(3, {l3}) # z
+        c4 = Clause(4, {l4}) # w
+
+        inst = {c1, c2, c3, c4}
+
+        self.assertTrue(unit_clause_elim(inst, assigned.copy(), unassigned.copy()) == set())
+
+    def test_contains_opposing_units(self): 
+        c1 = Clause(1, {l1}) # x
+        c2 = Clause(2, {l1b}) # -x
+        c3 = Clause(3, {l3}) # z
+        c4 = Clause(4, {l4}) # w
+
+        inst = {c1, c2, c3, c4}
+        elim_clauses = unit_clause_elim(inst, assigned.copy(), unassigned.copy())
+
+        self.assertTrue(contains_empty_clause(elim_clauses) and len(elim_clauses) == 1)
+
+
+###################################################
+#            TESTS FOR pure_lit_elim              #
+###################################################
 
 if __name__ == '__main__':
     unittest.main()
