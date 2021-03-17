@@ -1,0 +1,8 @@
+c literals_appear_once.cnf
+c
+c SAT
+p cnf 4 8
+-1 2 0
+3 0
+4 5 0
+-6 -7 -8 0

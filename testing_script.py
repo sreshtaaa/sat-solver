@@ -28,7 +28,6 @@ def generate_clauses(set_lits : Set[Literal]):
     
     return set_clauses
     
-
 def check_validity_clauses(assignment : Set[Literal], clauses : Set[Clause]): 
     for clause in clauses: 
         if assignment.intersection(clause.literal_set) == set(): 
@@ -37,11 +36,12 @@ def check_validity_clauses(assignment : Set[Literal], clauses : Set[Clause]):
     return True
 
 def main(): 
-    inputFile = sys.argv[1]
+    # inputFile = sys.argv[1] # for running in command line
+    inputFile = "test_files/literals_appear_once.cnf" # for running manually, use "test_files/<test_name>.cnf"
     assigned, unassigned, clause_set = readInput(inputFile)
     assignment = solve(assigned, unassigned, clause_set)
     
-    if assignment == set(): 
+    if assignment == None: 
         print("UNSAT")
     else: 
         print("Our assignment: " + str(assignment))

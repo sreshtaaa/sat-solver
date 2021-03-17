@@ -16,9 +16,13 @@ def solve(assigned_lits : Set[Literal], unassigned_lits : Set[Literal], set_clau
 
     if cleaned_clauses == set():
         return assigned_lits
-    elif set() in cleaned_clauses: 
-        return # return None for print output
     else: 
+        for clause in cleaned_clauses: 
+            if clause.literal_set == set(): 
+                return 
+            else: 
+                continue
+        
         mod_assigned = assigned_lits.copy()
         mod_unassigned = unassigned_lits.copy()
 
