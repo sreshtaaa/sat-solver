@@ -1,0 +1,8 @@
+c unit_cascade_sat.cnf
+c
+c SAT
+p cnf 4 4 
+3 0
+-3 4 0
+1 2 -3 4 0
+-2 -3 0 

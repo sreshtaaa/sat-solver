@@ -1,0 +1,5 @@
+c single_clause.cnf
+c
+c SAT
+p cnf 1 5
+3 -4 1 -5 2 0

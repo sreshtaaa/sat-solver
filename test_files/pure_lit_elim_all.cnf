@@ -1,0 +1,10 @@
+c pure_lit_elim_all.cnf
+c
+c SAT
+p cnf 6 4 
+-1 2 0
+-1 4 0
+-3 -1 2 0
+3 -1 0
+-4 -1 0
+-2 3 -1 0 

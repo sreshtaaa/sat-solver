@@ -1,0 +1,9 @@
+c single_unit_clause_elim.cnf
+c
+c SAT
+p cnf 5 4 
+3 0
+-1 2 0
+3 4 0
+-3 2 1 0
+-2 4 -3 0 

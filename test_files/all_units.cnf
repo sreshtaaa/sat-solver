@@ -1,0 +1,10 @@
+c all_units.cnf
+c
+c SAT
+p cnf 6 6 
+1 0 
+-3 0 
+-2 0 
+-6 0
+4 0 
+-5 0

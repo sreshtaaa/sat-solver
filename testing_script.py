@@ -3,7 +3,7 @@ from copy import copy, deepcopy
 import random 
 from typing import Callable, List, Set, Tuple
 from classes import Literal, Clause
-from solver import readInput, solve
+from solver import readInput, solve, printOutput
 
 def generate_literals(num_lits : int):
     lit_set = set()
@@ -37,15 +37,15 @@ def check_validity_clauses(assignment : Set[Literal], clauses : Set[Clause]):
 
 def main(): 
     # inputFile = sys.argv[1] # for running in command line
-    inputFile = "test_files/literals_appear_once.cnf" # for running manually, use "test_files/<test_name>.cnf"
+    inputFile = "test_files/single_clause.cnf" # for running manually, use "test_files/<test_name>.cnf"
     assigned, unassigned, clause_set = readInput(inputFile)
     assignment = solve(assigned, unassigned, clause_set)
     
     if assignment == None: 
         print("UNSAT")
     else: 
-        print("Our assignment: " + str(assignment))
-        print("Satisfies: " + str(check_validity_clauses(assignment, clause_set)))
+        printOutput(assignment)
+        print("Checking Assignment For Validity... " + str(check_validity_clauses(assignment, clause_set)))
     return 
 
 if __name__ == "__main__":
