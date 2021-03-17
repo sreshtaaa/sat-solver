@@ -124,5 +124,67 @@ class UnitElimTests(unittest.TestCase):
 #            TESTS FOR pure_lit_elim              #
 ###################################################
 
+class PureLitElimTests(unittest.TestCase):
+    def test_basic(self):
+        c1 = Clause(1, {l1, l2, l3}) # x y z
+        c2 = Clause(2, {l1, l2b})  # x -y
+        c3 = Clause(3, {l2, l3}) # y z
+        c4 = Clause(4, {l2b, l3b}) # -y -z
+
+        inst = {c1, c2, c3, c4}
+        unassigned2 = {l1, l2, l3, l2b, l3b}
+
+        elim_clauses = pure_literal_elim(inst, assigned.copy(), unassigned2)
+
+        self.assertTrue(elim_clauses == {c3, c4})
+
+    def test_recursive_elim(self):
+        c1 = Clause(1, {l1, l2, l3}) # x y z
+        c2 = Clause(2, {l1, l2b})  # x -y
+        c3 = Clause(3, {l2, l3}) # y z
+        c4 = Clause(4, {l3, l3b}) # -z z
+
+        inst = {c1, c2, c3, c4}
+        unassigned2 = {l1, l2, l3, l2b, l3b}
+
+        elim_clauses = pure_literal_elim(inst, assigned.copy(), unassigned2)
+        
+        self.assertTrue(elim_clauses == {c4})
+
+    def test_no_pure_literals(self):
+        c1 = Clause(1, {l1, l2, l3}) # x y z
+        c2 = Clause(2, {l1b, l2b, l3b})  # -x -y -z
+
+        inst = {c1, c2}
+        unassigned2 = {l1, l2, l3, l2b, l3b, l1b}
+
+        elim_clauses = pure_literal_elim(inst, assigned.copy(), unassigned2)
+
+        self.assertTrue(elim_clauses == {c1, c2})
+    
+    def test_all_pure(self):
+        c1 = Clause(1, {l1, l3}) # x z
+        c2 = Clause(2, {l2b, l3})  # -y z
+        c3 = Clause(3, {l2b, l1}) # -y x
+
+        inst = {c1, c2, c3}
+        unassigned2 = {l1, l2b, l3}
+
+        elim_clauses = pure_literal_elim(inst, assigned.copy(), unassigned2)
+
+        self.assertTrue(elim_clauses == set())
+    
+    def test_empty_clause(self):
+        c1 = Clause(1, set())
+        c2 = Clause(2, {l1, l2, l3}) # x y z
+        c3 = Clause(3, {l1b, l2b, l3b})  # -x -y -z
+
+        inst = {c1, c2, c3}
+        unassigned2 = {l1, l2, l3, l1b, l2b, l3b}
+
+        elim_clauses = pure_literal_elim(inst, assigned.copy(), unassigned2)
+
+        self.assertTrue(elim_clauses == inst.copy())
+
 if __name__ == '__main__':
     unittest.main()
