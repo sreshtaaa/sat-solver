@@ -3,5 +3,4 @@ We tested our solver against ring.rkt from Forge 2. The times were as follows:
 SAT: Finding an instance of a ring with 3 nodes took our solver 2.516 seconds, and it took Forge 5 milliseconds
 UNSAT: Our solver also returned UNSAT where Forge returned UNSAT (we modified the isRing predicate to be false)
 
-As seen, our solver was notably slower than Forge. This could potentially be due to the fact that we used Python
-to do this project, and we also had many linear-time operations that recursively added up. 
+As seen, our solver was notably slower than Forge. This could potentially be due to the fact that we used Python to do this project, and we also had many linear-time operations that recursively added up. 
