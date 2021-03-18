@@ -5,7 +5,7 @@ from typing import Callable, List, Set, Tuple
 
 # Imports from our files
 from classes import Literal, Clause
-from solver import readInput, solve, printOutput
+from solver import read_input, solve, print_output
 
 ############ PRELIMINARY CODE FOR GENERATING INPUT ##############
 # Note: Not completed, added as a potential extension for testing
@@ -45,15 +45,15 @@ def check_validity_clauses(assignment : Set[Literal], clauses : Set[Clause]):
     return True
 
 def main(): 
-    # inputFile = sys.argv[1] # for running in command line
-    inputFile = "test_files/long_unsat.cnf" # for running manually, use "test_files/<test_name>.cnf"
-    assigned, unassigned, clause_set = readInput(inputFile)
+    input_file = sys.argv[1] # for running in command line
+    # input_file = "test_files/long_sat.cnf" # for running manually, use "test_files/<test_name>.cnf"
+    assigned, unassigned, clause_set = read_input(input_file)
     assignment = solve(assigned, unassigned, clause_set)
     
     if assignment == None: 
         print("UNSAT")
     else: 
-        printOutput(assignment)
+        print_output(assignment)
         print("Checking Assignment For Validity... " + str(check_validity_clauses(assignment, clause_set)))
     return 
 

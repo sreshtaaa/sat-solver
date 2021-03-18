@@ -3,6 +3,8 @@ from general_functions import remove_clauses_with_literal, update_assignments, \
     remove_negated_unit, negate_literal
 from classes import Literal, Clause
 
+# Consumes a set of clauses and continues to eliminate units (and assign units to solution)
+# until there are no units left
 def unit_clause_elim(set_clauses : Set[Clause], assigned : Set[Literal], unassigned : Set[Literal]):
     unit_set = find_all_units(set_clauses, assigned, unassigned)
     removed_clauses = set_clauses
@@ -14,6 +16,8 @@ def unit_clause_elim(set_clauses : Set[Clause], assigned : Set[Literal], unassig
         return removed_clauses
     else: 
         return unit_clause_elim(removed_clauses, assigned, unassigned)
+
+############# HELPER FUNCTIONS FOR unit_clause_elim #############
 
 # Consumes a set of clauses and returns a set of unit literals
 def find_all_units(set_clauses : Set[Clause], assigned : Set[Literal], unassigned : Set[Literal]):
