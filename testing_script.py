@@ -37,7 +37,7 @@ def check_validity_clauses(assignment : Set[Literal], clauses : Set[Clause]):
 
 def main(): 
     # inputFile = sys.argv[1] # for running in command line
-    inputFile = "test_files/single_clause.cnf" # for running manually, use "test_files/<test_name>.cnf"
+    inputFile = "test_files/long_sat.cnf" # for running manually, use "test_files/<test_name>.cnf"
     assigned, unassigned, clause_set = readInput(inputFile)
     assignment = solve(assigned, unassigned, clause_set)
     

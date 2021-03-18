@@ -13,6 +13,7 @@ from pure_lit_elim import pure_literal_elim
 def solve(assigned_lits : Set[Literal], unassigned_lits : Set[Literal], set_clauses : Set[Clause]):
     eliminated_unit_clauses = unit_clause_elim(set_clauses, assigned_lits, unassigned_lits)
     cleaned_clauses = pure_literal_elim(eliminated_unit_clauses, assigned_lits, unassigned_lits)
+    #cleaned_clauses = eliminated_unit_clauses
 
     if cleaned_clauses == set():
         return assigned_lits
@@ -23,24 +24,24 @@ def solve(assigned_lits : Set[Literal], unassigned_lits : Set[Literal], set_clau
             else: 
                 continue
         
-        mod_assigned = assigned_lits.copy()
-        mod_unassigned = unassigned_lits.copy()
+        mod_assigned = deepcopy(assigned_lits)
+        mod_unassigned = deepcopy(unassigned_lits)
 
         random_lit = mod_unassigned.pop()
         mod_unassigned.add(random_lit)
 
         update_assignments(mod_assigned, mod_unassigned, random_lit)
-        mod_clauses = eliminate_single_unit(set_clauses.copy(), random_lit)
+        mod_clauses = eliminate_single_unit(deepcopy(cleaned_clauses), random_lit)
 
         result = solve(mod_assigned, mod_unassigned, mod_clauses)
         if result == None: 
-            neg_mod_assigned = assigned_lits.copy()
-            neg_mod_unassigned = unassigned_lits.copy()
+            neg_mod_assigned = deepcopy(assigned_lits)
+            neg_mod_unassigned = deepcopy(unassigned_lits)
 
             update_assignments(neg_mod_assigned, neg_mod_unassigned, negate_literal(random_lit))
-            neg_mod_clauses = eliminate_single_unit(set_clauses.copy(), negate_literal(random_lit))
+            neg_mod_clauses = eliminate_single_unit(deepcopy(cleaned_clauses), negate_literal(random_lit))
 
-            neg_result = solve(mod_assigned, mod_unassigned, mod_clauses)
+            neg_result = solve(neg_mod_assigned, neg_mod_unassigned, neg_mod_clauses)
             
             return neg_result
         else: 
