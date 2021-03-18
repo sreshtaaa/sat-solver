@@ -242,5 +242,7 @@ class SolverEdgeCases(unittest.TestCase):
 
         self.assertTrue(check_validity_clauses(sol, inst))
 
+# OTHER SOLVER TESTS : Ran testing_script.py over all sample cnfs in test_files
+
 if __name__ == '__main__':
     unittest.main()
