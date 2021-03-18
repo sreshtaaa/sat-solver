@@ -199,6 +199,10 @@ class PureLitElimTests(unittest.TestCase):
 
         self.assertTrue(l1 in assigned2 and l3 not in assigned2)
 
+###################################################
+#               EDGE CASES FOR solver             #
+###################################################
+
 class SolverEdgeCases(unittest.TestCase):
     def test_no_clauses(self): # returns subset of unassigned
         sol = solve(assigned.copy(), unassigned.copy(), set())

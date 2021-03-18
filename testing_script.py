@@ -2,8 +2,13 @@ import sys
 from copy import copy, deepcopy
 import random 
 from typing import Callable, List, Set, Tuple
+
+# Imports from our files
 from classes import Literal, Clause
 from solver import readInput, solve, printOutput
+
+############ PRELIMINARY CODE FOR GENERATING INPUT ##############
+# Note: Not completed, added as a potential extension for testing
 
 def generate_literals(num_lits : int):
     lit_set = set()
@@ -27,7 +32,11 @@ def generate_clauses(set_lits : Set[Literal]):
         set_clauses.add(Clause(i, lits_in_clause))
     
     return set_clauses
+
+################# VALIDITY CHECKING #################
     
+# Consumes a variable assignment and a set of clauses and returns whether the assignment 
+# satisfies the clauses
 def check_validity_clauses(assignment : Set[Literal], clauses : Set[Clause]): 
     for clause in clauses: 
         if assignment.intersection(clause.literal_set) == set(): 
@@ -37,7 +46,7 @@ def check_validity_clauses(assignment : Set[Literal], clauses : Set[Clause]):
 
 def main(): 
     # inputFile = sys.argv[1] # for running in command line
-    inputFile = "test_files/long_sat.cnf" # for running manually, use "test_files/<test_name>.cnf"
+    inputFile = "test_files/long_unsat.cnf" # for running manually, use "test_files/<test_name>.cnf"
     assigned, unassigned, clause_set = readInput(inputFile)
     assignment = solve(assigned, unassigned, clause_set)
     
