@@ -7,6 +7,7 @@ from pure_lit_elim import pure_literal_elim
 from unit_elim import unit_clause_elim, eliminate_single_unit
 from general_functions import negate_literal
 from solver import solve
+from testing_script import check_validity_clauses
 
 ############### TESTING VARIABLES ################
 
@@ -185,6 +186,61 @@ class PureLitElimTests(unittest.TestCase):
         elim_clauses = pure_literal_elim(inst, assigned.copy(), unassigned2)
 
         self.assertTrue(elim_clauses == inst.copy())
+
+    def test_assigns_leftovers(self):
+        c2 = Clause(2, {l2}) # x y z
+        c3 = Clause(3, {l2b, l3b})  # -x -y -z
+        
+        inst = {c2, c3}
+        unassigned2 = {l1, l2, l2b, l3, l3b}
+        assigned2 = assigned.copy()
+
+        elim_clauses = pure_literal_elim(inst, assigned2, unassigned2)
+
+        self.assertTrue(l1 in assigned2 and l3 not in assigned2)
+
+class SolverEdgeCases(unittest.TestCase):
+    def test_no_clauses(self): # returns subset of unassigned
+        sol = solve(assigned.copy(), unassigned.copy(), set())
+        self.assertTrue(sol != None and sol.issubset(unassigned))
+    
+    def test_no_clauses_no_literals(self): # returns sat, empty set
+        sol = solve(assigned.copy(), set(), set())
+        self.assertTrue(sol == set())
+    
+    def test_has_empty_clause_from_start(self):
+        c1 = Clause(1, {l1, l2b})
+        c2 = Clause(2, {l3, l3b})
+        c3 = Clause(3, set())
+
+        inst = {c1, c2, c3}
+        unassigned2 = {l1, l2b, l3, l3b}
+
+        sol = solve(assigned.copy(), unassigned2, inst)
+        self.assertTrue(sol == None)
+    
+    def test_unsat(self):
+        c1 = Clause(1, {l1, l2b})
+        c2 = Clause(2, {l3, l3b})
+        c3 = Clause(3, {l1b})
+        c4 = Clause(4, {l2})
+
+        inst = {c1, c2, c3, c4}
+        unassigned2 = {l1, l2b, l3, l3b, l2, l2b}
+
+        sol = solve(assigned.copy(), unassigned2, inst)
+        self.assertTrue(sol == None)
+    
+    def test_sat(self):
+        c1 = Clause(1, {l1b, l1, l2b})
+        c2 = Clause(3, {l1b, l2})
+        c3 = Clause(2, {l1, l2})
+
+        inst = {c1, c2, c3}
+        unassigned2 = {l1b, l1, l2b, l2}
+        sol = solve(assigned.copy(), unassigned2, inst)
+
+        self.assertTrue(check_validity_clauses(sol, inst))
 
 if __name__ == '__main__':
     unittest.main()
