@@ -1,0 +1,6 @@
+We could not get the forge solver option to work :(( We followed the advice on the FAQs too but no dice.
+
+Error: 
+run.sh is not available on this system. \
+Searched C:\Users\[redacted]\AppData\Roaming\Racket\7.9\pkgs\forge\pardinus-cli\server\..\jar 
+(line 1, pos 81): [error][blank]
